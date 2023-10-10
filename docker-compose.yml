@@ -1,0 +1,18 @@
+version: "3.4"
+services:
+    databaseSQL:
+        image: mcr.microsoft.com/mssql/server
+        container_name: sqlserver
+        environment:
+            SA_PASSWORD: SQL_PASS
+            ACCEPT_EULA: Y
+        ports:
+            - "1433:1433"
+    elasticSearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+        container_name: elasticsearch
+        environment:
+            - discovery.type=single-node
+        ports:
+            - "9200:9200"
+            - "9300:9300"
