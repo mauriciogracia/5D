@@ -18,7 +18,7 @@ CREATE TABLE TIPO_PERMISOS (
 
 -- Add a foreign key constraint to establish the relationship
 ALTER TABLE PERMISOS
-ADD CONSTRAINT FK_Permission_TipoPermiso
+ADD CONSTRAINT FK_Permisos_TipoPermiso
 FOREIGN KEY (TipoPermiso) 
 REFERENCES TIPO_PERMISOS(Id);
 
