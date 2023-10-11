@@ -19,11 +19,10 @@ public class Permiso
     public string ApellidoEmpleado { get; set; }
 
     [ForeignKey("TipoPermisoNavigation")]
-    public int TipoPermiso { get; set; }
+    public int TipoPermisoId { get; set; }
 
+    [Required]
+    public TipoPermiso TipoPermiso { get; set; }
     [Required]
     public DateTime FechaPermiso { get; set; }
-
-    [Required]
-    public TipoPermiso TipoPermisoNavigation { get; set; }
 }
