@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebApi.Persistance;
 
 namespace WebApi
 {
@@ -9,6 +11,16 @@ namespace WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
             bool isDev = builder.Environment.IsDevelopment();
+
+            // Register the ApiDbContext as a scoped service
+            builder.Services.AddDbContext<ApiDbContext>(options =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            // Dependency Injection
+            builder.Services.AddTransient<IPersist, PersistEF>();
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -38,6 +50,8 @@ namespace WebApi
 
             //app.UseHttpsRedirection();
             app.UseAuthorization();
+
+            
             app.MapControllers();
 
             app.Run();

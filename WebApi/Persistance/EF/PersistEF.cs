@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using WebApi.Persistance;
 
-public class PersisEF : IPersist
+public class PersistEF : IPersist
 {
     private readonly ApiDbContext _context;
 
-    public PersisEF(ApiDbContext context)
+    public PersistEF(ApiDbContext context)
     {
         _context = context;
     }
