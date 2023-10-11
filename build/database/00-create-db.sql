@@ -22,4 +22,8 @@ ADD CONSTRAINT FK_Permisos_TipoPermiso
 FOREIGN KEY (TipoPermiso) 
 REFERENCES TIPO_PERMISOS(Id);
 
+INSERT INTO TIPO_PERMISOS (Descripcion) VALUES ('Lectura');
+INSERT INTO TIPO_PERMISOS (Descripcion) VALUES ('Modificacion');
+INSERT INTO TIPO_PERMISOS (Descripcion) VALUES ('Admin');
+
 GO
