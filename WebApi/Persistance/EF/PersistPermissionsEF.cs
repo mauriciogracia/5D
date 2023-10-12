@@ -1,16 +1,16 @@
 ﻿using WebApi.Models;
 using WebApi.Persistance;
 
-public class PersistEF : IPersistPermissions
+public class PersistPermissionsEF : IPersistPermissions
 {
     private readonly ApiDbContext _context;
 
-    public PersistEF(ApiDbContext context)
+    public PersistPermissionsEF(ApiDbContext context)
     {
         _context = context;
     }
 
-    public bool AddPermission(Permiso permiso)
+    public bool AddPermission(Permission permiso)
     {
         bool success = false;
 
@@ -28,17 +28,17 @@ public class PersistEF : IPersistPermissions
         return success;
     }
 
-    public IEnumerable<Permiso> GetPermissions()
+    public IEnumerable<Permission> GetPermissions()
     {
         return _context.Permisos.ToList();
     }
 
-    public Permiso? RequestPermission(int id)
+    public Permission? RequestPermission(int id)
     {
         return _context.Permisos.FirstOrDefault(p => p.Id == id);
     }
 
-    public bool ModifyPermission(Permiso permiso)
+    public bool ModifyPermission(Permission permiso)
     {
         bool success = false;
 

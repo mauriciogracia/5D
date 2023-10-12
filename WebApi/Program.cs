@@ -20,7 +20,8 @@ namespace WebApi
             });
 
             // Dependency Injection
-            builder.Services.AddTransient<IPersistPermissions, PersistEF>();
+            builder.Services.AddTransient<IPersistPermissions, PersistPermissionsEF>();
+            builder.Services.AddTransient<IPersistPermissionTypes, PersistPermissionTypesEF>();
 
             // Add services to the container.
             builder.Services.AddControllers();

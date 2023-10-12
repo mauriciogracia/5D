@@ -27,21 +27,21 @@ public class PermisosTests
         // Arrange
         var mockPersist = new Mock<IPersistPermissions>();
         // Create a list of sample permissions
-        var samplePermissions = new List<Permiso>
+        var samplePermissions = new List<Permission>
         {
-            new Permiso { Id = 1, NombreEmpleado = "Employee1", ApellidoEmpleado = "Last1", TipoPermisoId = 1, FechaPermiso = new DateTime(2023, 10, 1) },
-            new Permiso { Id = 2, NombreEmpleado = "Employee2", ApellidoEmpleado = "Last2", TipoPermisoId = 2, FechaPermiso = new DateTime(2023, 10, 2) }
+            new Permission { Id = 1, NombreEmpleado = "Employee1", ApellidoEmpleado = "Last1", TipoPermisoId = 1, FechaPermiso = new DateTime(2023, 10, 1) },
+            new Permission { Id = 2, NombreEmpleado = "Employee2", ApellidoEmpleado = "Last2", TipoPermisoId = 2, FechaPermiso = new DateTime(2023, 10, 2) }
         };
         mockPersist.Setup(p => p.GetPermissions()).Returns(samplePermissions);
 
-        var controller = new PermisosController(mockPersist.Object);
+        var controller = new PermissionController(mockPersist.Object);
 
         // Act
         var result = controller.Get();
 
         // Assert
-        Assert.IsType<List<Permiso>>(result);
-        Assert.Equal(2, ((List<Permiso>)result).Count);
+        Assert.IsType<List<Permission>>(result);
+        Assert.Equal(2, ((List<Permission>)result).Count);
     }
 
     
@@ -50,10 +50,10 @@ public class PermisosTests
     public void Int_Test_GetPermissions()
     {
         // Arrange
-        var controller = new PermisosController(new PersistEF(_context));
+        var controller = new PermissionController(new PersistPermissionsEF(_context));
 
         // Create a new permission to add
-        var newPermission = new Permiso
+        var newPermission = new Permission
         {
             NombreEmpleado = "NewEmployee",
             ApellidoEmpleado = "NewLastName",
@@ -75,7 +75,7 @@ public class PermisosTests
         // Assert
         // Your assertions here based on the result
         Assert.NotNull(result);
-        Assert.IsType <List<Permiso>>(result); // Replace SomeExpectedType with the actual return type.
-        Assert.Equal(1, ((List<Permiso>)result).Count);
+        Assert.IsType <List<Permission>>(result); // Replace SomeExpectedType with the actual return type.
+        Assert.Equal(1, ((List<Permission>)result).Count);
     }
 }

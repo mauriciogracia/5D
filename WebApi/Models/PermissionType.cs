@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WebApi.Models
 {
     [Table("TIPO_PERMISOS")]
-    public class TipoPermiso
+    public class PermissionType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,6 +15,6 @@ namespace WebApi.Models
         public string Descripcion { get; set; }
 
         // Navigation property for related Permisos
-        public ICollection<Permiso> Permisos { get; set; }
+        public ICollection<Permission> Permisos { get; set; }
     }
 }

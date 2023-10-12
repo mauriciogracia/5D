@@ -6,23 +6,23 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PermisosController : ControllerBase
+    public class PermissionController : ControllerBase
     {
         private readonly IPersistPermissions persist;
 
-        public PermisosController(IPersistPermissions per)
+        public PermissionController(IPersistPermissions per)
         {
             persist = per;
         }
 
         [HttpGet(Name = "GetPermissions")]
-        public IEnumerable<Permiso> Get()
+        public IEnumerable<Permission> Get()
         {
             return persist.GetPermissions() ;
         }
 
         [HttpPost(Name = "AddPermission")]
-        public IActionResult Post([FromBody] Permiso permiso)
+        public IActionResult Post([FromBody] Permission permiso)
         {
             if (persist.AddPermission(permiso))
             {
@@ -49,7 +49,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdatePermission")]
-        public IActionResult Put([FromBody] Permiso permiso)
+        public IActionResult Put([FromBody] Permission permiso)
         {
             if (persist.ModifyPermission(permiso))
             {

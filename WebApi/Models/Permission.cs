@@ -7,7 +7,7 @@ using WebApi.Models;
 namespace WebApi.Models
 {
     [Table("PERMISOS")]
-    public class Permiso
+    public class Permission
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,8 +24,6 @@ namespace WebApi.Models
         [ForeignKey("TipoPermisoNavigation")]
         public int TipoPermisoId { get; set; }
 
-        [Required]
-        public TipoPermiso TipoPermiso { get; set; }
         [Required]
         public DateTime FechaPermiso { get; set; }
     }

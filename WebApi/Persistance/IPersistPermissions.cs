@@ -4,10 +4,10 @@ namespace WebApi.Persistance
 {
     public interface IPersistPermissions
     {
-        public bool AddPermission(Permiso p);
-        public IEnumerable<Permiso> GetPermissions();
-        public Permiso? RequestPermission(int id);
-        public bool ModifyPermission(Permiso p);
+        public bool AddPermission(Permission p);
+        public IEnumerable<Permission> GetPermissions();
+        public Permission? RequestPermission(int id);
+        public bool ModifyPermission(Permission p);
 
     }
 }
