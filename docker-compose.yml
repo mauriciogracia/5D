@@ -1,12 +1,5 @@
 version: "3.4"
 services:
-    proxy:
-        container_name: proxy
-        build:
-            context: ./proxy
-            dockerfile: ./proxy.Dockerfile
-        ports:
-            - "8080:80"
     database:
         container_name: database
         build:
@@ -44,3 +37,10 @@ services:
     #     ports:
     #         - "9200:9200"
     #         - "9300:9300"
+# proxy:
+#         container_name: proxy
+#         build:
+#             context: ./proxy
+#             dockerfile: ./proxy.Dockerfile
+#         ports:
+#             - "8080:80"
