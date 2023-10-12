@@ -7,6 +7,7 @@ namespace WebApi
     public class Program
     {
         private const string API_NAME = "PERMISSIONS_API";
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,18 @@ namespace WebApi
 
             // Add services to the container.
             builder.Services.AddControllers();
+
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOriginPolicy", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()     // Allow requests from any origin
+                        .AllowAnyMethod()     // Allow any HTTP method
+                        .AllowAnyHeader();    // Allow any HTTP headers
+                });
+            });
 
             if (isDev)
             {
@@ -49,14 +62,16 @@ namespace WebApi
                 });
             }
 
+            // Enable CORS
+            app.UseCors("AllowAnyOriginPolicy");
+
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            
             app.MapControllers();
 
             app.Run();
         }
-
     }
+
 }
