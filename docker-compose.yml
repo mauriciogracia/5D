@@ -23,3 +23,14 @@ services:
         ports:
             - "5000:80"
             - "5001:443"
+        depends_on:
+            - database # The web API depends on the database service
+    reactapp:
+        container_name: reactapp
+        build:
+            context: ./web-site
+            dockerfile: Dockerfile
+        ports:
+            - "3000:80"
+        depends_on:
+            - webapi # The React app depends on the web API service

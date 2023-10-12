@@ -13,13 +13,13 @@ public class ApiDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Permiso>()
-            .HasOne(p => p.TipoPermisoNavigation)
+            .HasOne(p => p.TipoPermiso)
             .WithMany(tp => tp.Permisos)  
             .HasForeignKey(p => p.TipoPermiso);
 
         modelBuilder.Entity<TipoPermiso>()
             .HasMany(tp => tp.Permisos)
-            .WithOne(p => p.TipoPermisoNavigation)
+            .WithOne(p => p.TipoPermiso)
             .HasForeignKey(p => p.TipoPermiso);
     }
 }
