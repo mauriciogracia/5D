@@ -7,14 +7,7 @@ services:
             dockerfile: ./prepare/sqlserver.Dockerfile
         ports:
             - "1433:1433"
-    elastic-search:
-        container_name: elastic-search
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-        environment:
-            - discovery.type=single-node
-        ports:
-            - "9200:9200"
-            - "9300:9300"
+
     webapi:
         container_name: webapi
         build:
@@ -25,14 +18,22 @@ services:
             - "5001:443"
         depends_on:
             - database # The web API depends on the database service
-    reactapp:
-        container_name: reactapp
-        build:
-            context: ./web-site
-            dockerfile: Dockerfile
-        volumes:
-            - ./web-site:/app # Map your React app code directory to /app in the container
-        ports:
-            - "8000:80"
-        depends_on:
-            - webapi # The React app depends on the web API service
+    # reactapp:
+    #     container_name: reactapp
+    #     build:
+    #         context: ./web-site
+    #         dockerfile: Dockerfile
+    #     volumes:
+    #         - ./web-site:/app # Map your React app code directory to /app in the container
+    #     ports:
+    #         - "8000:80"
+    #     depends_on:
+    #         - webapi # The React app depends on the web API service
+    # elastic-search:
+    #     container_name: elastic-search
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    #     environment:
+    #         - discovery.type=single-node
+    #     ports:
+    #         - "9200:9200"
+    #         - "9300:9300"
