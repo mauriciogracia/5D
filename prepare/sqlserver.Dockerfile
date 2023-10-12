@@ -7,7 +7,7 @@ ENV ACCEPT_EULA="Y"
 EXPOSE 1433
 
 RUN mkdir -p /var/opt/mssql/scripts
-COPY ./build/database/*.sql /var/opt/mssql/scripts/
+COPY ./prepare/database/*.sql /var/opt/mssql/scripts/
 WORKDIR /var/opt/mssql/scripts
 
 # Start SQL Server and execute the SQL script after it becomes available

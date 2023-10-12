@@ -1,10 +1,13 @@
 # Stage 1: Build the React app
 FROM node:14 as build
 WORKDIR /app
-COPY package.json package-lock.json ./
 
-RUN npm cache clean -f
-RUN rm package-lock.json
+COPY package.json  ./
+
+# Used to solve tempdorary package issue
+#COPY package.json package-lock.json ./
+#RUN npm cache clean -f
+#RUN rm package-lock.json
 RUN npm install
 
 COPY . ./
