@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using WebApi.Models;
 using WebApi.Persistance;
 
-public class PersistEF : IPersist
+public class PersistEF : IPersistPermissions
 {
     private readonly ApiDbContext _context;
 

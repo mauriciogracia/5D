@@ -25,7 +25,7 @@ public class PermisosTests
     public void TestGetPermissions()
     {
         // Arrange
-        var mockPersist = new Mock<IPersist>();
+        var mockPersist = new Mock<IPersistPermissions>();
         // Create a list of sample permissions
         var samplePermissions = new List<Permiso>
         {

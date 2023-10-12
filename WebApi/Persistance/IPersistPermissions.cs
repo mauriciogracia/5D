@@ -1,6 +1,8 @@
-﻿namespace WebApi.Persistance
+﻿using WebApi.Models;
+
+namespace WebApi.Persistance
 {
-    public interface IPersist
+    public interface IPersistPermissions
     {
         public bool AddPermission(Permiso p);
         public IEnumerable<Permiso> GetPermissions();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 using WebApi.Persistance;
 
 namespace WebApi.Controllers
@@ -7,9 +8,9 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     public class PermisosController : ControllerBase
     {
-        private readonly IPersist persist;
+        private readonly IPersistPermissions persist;
 
-        public PermisosController(IPersist per)
+        public PermisosController(IPersistPermissions per)
         {
             persist = per;
         }
