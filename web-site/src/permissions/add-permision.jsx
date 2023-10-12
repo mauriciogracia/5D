@@ -1,16 +1,37 @@
 // PermissionForm.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import apiConfig from "../apiConfig";
 
 function PermissionForm() {
     const [permission, setPermission] = useState("");
     const [error, setError] = useState("");
+    const [permissionTypes, setPermissionTypes] = useState([]);
+
+    useEffect(() => {
+        // Fetch permission types from the API endpoint when the component mounts
+        fetch(apiConfig.GetPermissionTypesURL)
+            .then((response) => {
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error("Failed to fetch permission types");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setPermissionTypes(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setError(err.message);
+            });
+    }, []); // The empty dependency array ensures this effect runs only once
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             // Make an API call to add the permission
-            const response = await fetch("/api/addPermission", {
+            const response = await fetch(apiConfig.AddPermissionEndpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,9 +72,11 @@ function PermissionForm() {
                 <br />
                 <label htmlFor="TipoPermiso">Tipo de Permiso:</label>
                 <select id="TipoPermiso" name="TipoPermiso" required>
-                    <option value="1">Tipo 1</option>
-                    <option value="2">Tipo 2</option>
-                    <option value="3">Tipo 3</option>
+                    {permissionTypes.map((type) => (
+                        <option key={type.id} value={type.id}>
+                            {type.name}
+                        </option>
+                    ))}
                 </select>
                 <br />
                 <label htmlFor="FechaPermiso">Fecha del Permiso:</label>
@@ -66,15 +89,6 @@ function PermissionForm() {
                 <br />
                 <button type="submit">Add Permission</button>
             </form>
-            In this modified form: NombreEmpleado and ApellidoEmpleado are text
-            input fields. TipoPermiso is a dropdown (select) input with options
-            representing different types of permissions. FechaPermiso is a date
-            input field for selecting the date of the permission. You should
-            adjust the options in the TipoPermiso select field to match the
-            possible types of permissions defined in your system. The JavaScript
-            code for handling the form submission should also be updated to
-            collect the values of these input fields and send them to your
-            server when making the API call to add a new permission.
         </div>
     );
 }
