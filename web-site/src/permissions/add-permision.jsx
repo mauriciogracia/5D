@@ -1,6 +1,6 @@
 // PermissionForm.js
 import React, { useState, useEffect } from "react";
-import apiConfig from "../apiConfig";
+import ApiConfig from "../apiConfig";
 
 function PermissionForm() {
     const [permission, setPermission] = useState("");
@@ -8,8 +8,12 @@ function PermissionForm() {
     const [permissionTypes, setPermissionTypes] = useState([]);
 
     useEffect(() => {
+        console.log(
+            "GetPermissionTypesURL:" + ApiConfig.GetPermissionTypesEndpoint
+        );
+
         // Fetch permission types from the API endpoint when the component mounts
-        fetch(apiConfig.GetPermissionTypesURL)
+        fetch(ApiConfig.GetPermissionTypesEndpoint)
             .then((response) => {
                 if (!response.ok) {
                     console.log(response);
@@ -31,7 +35,7 @@ function PermissionForm() {
 
         try {
             // Make an API call to add the permission
-            const response = await fetch(apiConfig.AddPermissionEndpoint, {
+            const response = await fetch(ApiConfig.AddPermissionEndpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

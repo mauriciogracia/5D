@@ -1,10 +1,9 @@
-class ApiConfig {
-    constructor() {
-        this.apiBaseUrl = "http://webapi:5000";
-        this.GetPermissionTypesEndpoint = `${this.apiBaseUrl}/PermissionsType/GetPermissionTypes`;
-        this.AddPermissionEndpoint = `${this.apiBaseUrl}/api/addPermission`;
-    }
-}
-const apiConfig = new ApiConfig();
+const apiBaseUrl = "http://webapi:5000";
+const GetPermissionTypesEndpoint = `${apiBaseUrl}/PermissionsType/GetPermissionTypes`;
+const AddPermissionEndpoint = `${apiBaseUrl}/api/addPermission`;
 
-export default apiConfig;
+export default {
+    apiBaseUrl,
+    GetPermissionTypesEndpoint,
+    AddPermissionEndpoint,
+};

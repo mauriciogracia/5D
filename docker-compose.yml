@@ -30,6 +30,8 @@ services:
         build:
             context: ./web-site
             dockerfile: Dockerfile
+        volumes:
+            - ./web-site:/app # Map your React app code directory to /app in the container
         ports:
             - "8000:80"
         depends_on:
