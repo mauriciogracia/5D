@@ -7,7 +7,7 @@ CREATE TABLE PERMISOS (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     NombreEmpleado NVARCHAR(100) NOT NULL,
     ApellidoEmpleado NVARCHAR(100) NOT NULL,
-    TipoPermiso INT NOT NULL,
+    TipoPermisoId INT NOT NULL,
     FechaPermiso DATE NOT NULL
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE TIPO_PERMISOS (
 -- Add a foreign key constraint to establish the relationship
 ALTER TABLE PERMISOS
 ADD CONSTRAINT FK_Permisos_TipoPermiso
-FOREIGN KEY (TipoPermiso) 
+FOREIGN KEY (TipoPermisoId) 
 REFERENCES TIPO_PERMISOS(Id);
 
 INSERT INTO TIPO_PERMISOS (Descripcion) VALUES ('Lectura');

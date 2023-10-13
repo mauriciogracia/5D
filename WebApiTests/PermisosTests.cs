@@ -34,7 +34,7 @@ public class PermisosTests
         };
         mockPersist.Setup(p => p.GetPermissions()).Returns(samplePermissions);
 
-        var controller = new PermissionController(mockPersist.Object);
+        var controller = new PermissionsController(mockPersist.Object);
 
         // Act
         var result = controller.Get();
@@ -50,7 +50,7 @@ public class PermisosTests
     public void IntegrationTest()
     {
         // Arrange
-        var controller = new PermissionController(new PersistPermissionsEF(_context));
+        var controller = new PermissionsController(new PersistPermissionsEF(_context));
 
         // Create a new permission to add
         var newPermission = new Permission

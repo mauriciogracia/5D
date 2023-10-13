@@ -8,11 +8,11 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [EnableCors("AllowAnyOriginPolicy")]
-    public class PermissionsTypeController : ControllerBase
+    public class PermissionTypesController : ControllerBase
     {
         private readonly IPersistPermissionTypes persist;
 
-        public PermissionsTypeController(IPersistPermissionTypes per)
+        public PermissionTypesController(IPersistPermissionTypes per)
         {
             persist = per;
         }

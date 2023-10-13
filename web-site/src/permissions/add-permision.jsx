@@ -1,17 +1,18 @@
-// PermissionForm.js
 import React, { useState, useEffect } from "react";
 import ApiConfig from "../apiConfig";
 
 function PermissionForm() {
-    const [permission, setPermission] = useState("");
+    const [permission, setPermission] = useState({
+        NombreEmpleado: "",
+        ApellidoEmpleado: "",
+        TipoPermisoId: "",
+        FechaPermiso: new Date(),
+    });
     const [error, setError] = useState("");
     const [permissionTypes, setPermissionTypes] = useState([]);
+    const [selectedPermissionType, setSelectedPermissionType] = useState("");
 
     useEffect(() => {
-        console.log(
-            "GetPermissionTypesURL:" + ApiConfig.PermissionTypesEndpoint
-        );
-
         // Fetch permission types from the API endpoint when the component mounts
         fetch(ApiConfig.PermissionTypesEndpoint)
             .then((response) => {
@@ -23,17 +24,32 @@ function PermissionForm() {
             })
             .then((data) => {
                 setPermissionTypes(data);
+                //The combo has preselected the first PermissionType
+                setSelectedPermissionType(1);
             })
             .catch((err) => {
                 console.log(err.message);
                 setError(err.message);
             });
-    }, []); // The empty dependency array ensures this effect runs only once
+    }, []);
+
+    const handlePermissionTypeChange = (e) => {
+        setSelectedPermissionType(e.target.value);
+        // Update the selected permission type in the permission state
+        setPermission({
+            ...permission,
+            TipoPermisoId: e.target.value,
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Set FechaPermiso to the current date
         permission.FechaPermiso = new Date();
+
+        // Get the selected TipoPermisoId value from the dropdown
+        permission.TipoPermisoId = selectedPermissionType;
 
         try {
             // Make an API call to add the permission
@@ -42,7 +58,7 @@ function PermissionForm() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ permission }),
+                body: JSON.stringify(permission),
             });
 
             if (!response.ok) {
@@ -59,13 +75,20 @@ function PermissionForm() {
     return (
         <div>
             {error && <div className="error-message">{error}</div>}
-            <form id="permissionForm">
+            <form id="permissionForm" onSubmit={handleSubmit}>
                 <label htmlFor="NombreEmpleado">Nombre del Empleado:</label>
                 <input
                     type="text"
                     id="NombreEmpleado"
                     name="NombreEmpleado"
                     required
+                    value={permission.NombreEmpleado}
+                    onChange={(e) =>
+                        setPermission({
+                            ...permission,
+                            NombreEmpleado: e.target.value,
+                        })
+                    }
                 />
                 <br />
                 <label htmlFor="ApellidoEmpleado">Apellido del Empleado:</label>
@@ -74,10 +97,23 @@ function PermissionForm() {
                     id="ApellidoEmpleado"
                     name="ApellidoEmpleado"
                     required
+                    value={permission.ApellidoEmpleado}
+                    onChange={(e) =>
+                        setPermission({
+                            ...permission,
+                            ApellidoEmpleado: e.target.value,
+                        })
+                    }
                 />
                 <br />
-                <label htmlFor="TipoPermiso">Tipo de Permiso:</label>
-                <select id="TipoPermiso" name="TipoPermiso" required>
+                <label htmlFor="TipoPermisoId">Tipo de Permiso:</label>
+                <select
+                    id="TipoPermisoId"
+                    name="TipoPermisoId"
+                    value={selectedPermissionType}
+                    onChange={handlePermissionTypeChange}
+                    required
+                >
                     {permissionTypes.map((type) => (
                         <option key={type.id} value={type.id}>
                             {type.descripcion}
