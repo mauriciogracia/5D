@@ -21,20 +21,7 @@ services:
             - database # The web API depends on the database service
         networks:
             - mgg_net
-    kafka:
-        container_name: kafka
-        image: confluentinc/cp-kafka:latest
-        hostname: kafka
-        ports:
-            - "9092:9092" # Kafka broker port
-        environment:
-            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-            KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-        volumes:
-            - /var/lib/kafka/data
-        networks:
-            - mgg_net
+
     reactapp:
         container_name: reactapp
         build:
@@ -48,16 +35,30 @@ services:
             - webapi # The React app depends on the web API service
         networks:
             - mgg_net
-    elastic-search:
-        container_name: elastic-search
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-        environment:
-            - discovery.type=single-node
-        ports:
-            - "9200:9200"
-            - "9300:9300"
-        networks:
-            - mgg_net
+    # elastic-search:
+    #     container_name: elastic-search
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    #     environment:
+    #         - discovery.type=single-node
+    #     ports:
+    #         - "9200:9200"
+    #         - "9300:9300"
+    #     networks:
+    #         - mgg_net
+    # kafka:
+    #     container_name: kafka
+    #     image: confluentinc/cp-kafka:latest
+    #     hostname: kafka
+    #     ports:
+    #         - "9092:9092" # Kafka broker port
+    #     environment:
+    #         KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    #         KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    #         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    #     volumes:
+    #         - /var/lib/kafka/data
+    #     networks:
+    #         - mgg_net
 networks:
     mgg_net:
         driver: bridge

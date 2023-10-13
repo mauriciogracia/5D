@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
+import {
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+} from "@mui/material";
 import ApiConfig from "../apiConfig";
 
 function PermissionForm() {
     const [permission, setPermission] = useState({
         NombreEmpleado: "",
         ApellidoEmpleado: "",
-        TipoPermisoId: "",
+        TipoPermisoId: 1, // Default to the first permission type
         FechaPermiso: new Date(),
     });
     const [error, setError] = useState("");
     const [permissionTypes, setPermissionTypes] = useState([]);
-    const [selectedPermissionType, setSelectedPermissionType] = useState("");
 
     useEffect(() => {
-        // Fetch permission types from the API endpoint when the component mounts
+        fetchPermissionTypes();
+    }, []);
+
+    const fetchPermissionTypes = () => {
         fetch(ApiConfig.PermissionTypesEndpoint)
             .then((response) => {
                 if (!response.ok) {
@@ -24,35 +34,17 @@ function PermissionForm() {
             })
             .then((data) => {
                 setPermissionTypes(data);
-                //The combo has preselected the first PermissionType
-                setSelectedPermissionType(1);
             })
             .catch((err) => {
-                console.log(err.message);
                 setError(err.message);
             });
-    }, []);
-
-    const handlePermissionTypeChange = (e) => {
-        setSelectedPermissionType(e.target.value);
-        // Update the selected permission type in the permission state
-        setPermission({
-            ...permission,
-            TipoPermisoId: e.target.value,
-        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         // Set FechaPermiso to the current date
         permission.FechaPermiso = new Date();
-
-        // Get the selected TipoPermisoId value from the dropdown
-        permission.TipoPermisoId = selectedPermissionType;
-
         try {
-            // Make an API call to add the permission
             const response = await fetch(ApiConfig.PermissionEndpoint, {
                 method: "POST",
                 headers: {
@@ -73,57 +65,59 @@ function PermissionForm() {
     };
 
     return (
-        <div>
-            {error && <div className="error-message">{error}</div>}
-            <form id="permissionForm" onSubmit={handleSubmit}>
-                <label htmlFor="NombreEmpleado">Nombre del Empleado:</label>
-                <input
-                    type="text"
-                    id="NombreEmpleado"
-                    name="NombreEmpleado"
-                    required
-                    value={permission.NombreEmpleado}
-                    onChange={(e) =>
-                        setPermission({
-                            ...permission,
-                            NombreEmpleado: e.target.value,
-                        })
-                    }
-                />
-                <br />
-                <label htmlFor="ApellidoEmpleado">Apellido del Empleado:</label>
-                <input
-                    type="text"
-                    id="ApellidoEmpleado"
-                    name="ApellidoEmpleado"
-                    required
-                    value={permission.ApellidoEmpleado}
-                    onChange={(e) =>
-                        setPermission({
-                            ...permission,
-                            ApellidoEmpleado: e.target.value,
-                        })
-                    }
-                />
-                <br />
-                <label htmlFor="TipoPermisoId">Tipo de Permiso:</label>
-                <select
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="Nombre del Empleado"
+                variant="outlined"
+                fullWidth
+                required
+                value={permission.NombreEmpleado}
+                onChange={(e) =>
+                    setPermission({
+                        ...permission,
+                        NombreEmpleado: e.target.value,
+                    })
+                }
+            />
+            <TextField
+                label="Apellido del Empleado"
+                variant="outlined"
+                fullWidth
+                required
+                value={permission.ApellidoEmpleado}
+                onChange={(e) =>
+                    setPermission({
+                        ...permission,
+                        ApellidoEmpleado: e.target.value,
+                    })
+                }
+            />
+            <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="TipoPermisoId">Tipo de Permiso</InputLabel>
+                <Select
+                    labelId="permission-type-label"
                     id="TipoPermisoId"
-                    name="TipoPermisoId"
-                    value={selectedPermissionType}
-                    onChange={handlePermissionTypeChange}
-                    required
+                    value={permission.TipoPermisoId}
+                    onChange={(e) =>
+                        setPermission({
+                            ...permission,
+                            TipoPermisoId: e.target.value,
+                        })
+                    }
+                    label="Tipo de Permiso"
                 >
                     {permissionTypes.map((type) => (
-                        <option key={type.id} value={type.id}>
+                        <MenuItem key={type.id} value={type.id}>
                             {type.descripcion}
-                        </option>
+                        </MenuItem>
                     ))}
-                </select>
-                <br />
-                <button type="submit">Add Permission</button>
-            </form>
-        </div>
+                </Select>
+            </FormControl>
+            <Button type="submit" variant="contained" color="primary">
+                Add Permission
+            </Button>
+            {error && <div className="error-message">{error}</div>}
+        </form>
     );
 }
 
