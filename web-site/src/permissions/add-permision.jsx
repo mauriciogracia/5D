@@ -33,6 +33,8 @@ function PermissionForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        permission.FechaPermiso = new Date();
+
         try {
             // Make an API call to add the permission
             const response = await fetch(ApiConfig.PermissionEndpoint, {
@@ -82,14 +84,6 @@ function PermissionForm() {
                         </option>
                     ))}
                 </select>
-                <br />
-                <label htmlFor="FechaPermiso">Fecha del Permiso:</label>
-                <input
-                    type="date"
-                    id="FechaPermiso"
-                    name="FechaPermiso"
-                    required
-                />
                 <br />
                 <button type="submit">Add Permission</button>
             </form>
