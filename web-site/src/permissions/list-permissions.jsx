@@ -30,29 +30,45 @@ function PermissionGridView({ history }) {
 
     return (
         <div>
+            <h3>EMPLOYEE PERMISSIONS</h3>
             <Button
+                style={{ marginBottom: "16px" }}
                 variant="contained"
                 color="primary"
                 onClick={() => history.push("/add-permission")}
             >
-                ADD PERMISSION
+                NEW PERMISSION
             </Button>
             <Grid container spacing={2}>
+                {/* Header row */}
+                <Grid item xs={12}>
+                    <Grid container spacing={2} direction="row">
+                        <Grid item xs={4}>
+                            <strong>Nombre</strong>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <strong>Apellido</strong>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <strong>Permiso</strong>
+                        </Grid>
+                    </Grid>
+                </Grid>
                 {data.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-                        {/* Render the grid items for each permission */}
-                        <div>
-                            <strong>Nombre del Empleado:</strong>{" "}
-                            {item.NombreEmpleado}
-                        </div>
-                        <div>
-                            <strong>Apellido del Empleado:</strong>{" "}
-                            {item.ApellidoEmpleado}
-                        </div>
-                        <div>
-                            <strong>Tipo de Permiso:</strong> {item.TipoPermiso}
-                        </div>
-                        {/* Add more information as needed */}
+                    <Grid item xs={12} key={item.id}>
+                        <Grid container spacing={2} direction="row">
+                            <Grid item xs={4}>
+                                {item.nombreEmpleado}
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                {item.apellidoEmpleado}
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                {item.tipoPermisoId}
+                            </Grid>
+                        </Grid>
                     </Grid>
                 ))}
             </Grid>
