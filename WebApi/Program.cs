@@ -8,20 +8,24 @@ namespace WebApi
 {
     public class Program
     {
-        static bool UseInMemoryDB = false;
         private const string API_NAME = "PERMISSIONS_API";
         public const string CORS_POLICY_NAME = "AllowAnyOriginPolicy";
 
-        private static void PeristanceStrategy(WebApplicationBuilder builder) {
-            // Register the ApiDbContext as a scoped service
-            if (UseInMemoryDB)
+        private static void PeristanceStrategy(WebApplicationBuilder builder)
+        {
+            bool UseMemoryDB = builder.Configuration.GetValue<bool>("UseMemoryDB");
+
+            if (UseMemoryDB)
             {
                 /* USE InMemoryDb 
-                builder.Services.AddDbContext<ApiDbContext>(options =>
-        options.UseInMemoryDatabase(databaseName: "InMemoryDb"));*/
-                
+                builder.Services.AddDbContext<ApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDb"));*/
+
                 // Dependency Injection
-                builder.Services.AddScoped<IRepository<Permission>, PermissionElastic>();
+                builder.Services.AddScoped<IRepository<Permission>>(provider =>
+                {
+                    var elasticsearchUri = builder.Configuration.GetConnectionString("ElasticURI"); // Get the Elasticsearch connection string from your configuration
+                    return new PermissionElastic(elasticsearchUri);
+                });
 
                 //TODO add the 3 types of permission to ELASTIC SEARCH (similar to INSERT INTO)
             }
@@ -35,7 +39,7 @@ namespace WebApi
                 // Dependency Injection
                 builder.Services.AddScoped<IRepository<Permission>, PermissionRepository>();
                 builder.Services.AddScoped<IRepository<PermissionType>, PermissionTypeRepository>();
-            }          
+            }
         }
 
         public static void Main(string[] args)
