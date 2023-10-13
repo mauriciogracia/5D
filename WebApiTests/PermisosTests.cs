@@ -47,7 +47,7 @@ public class PermisosTests
     
 
     [Fact]
-    public void Int_Test_GetPermissions()
+    public void IntegrationTest()
     {
         // Arrange
         var controller = new PermissionController(new PersistPermissionsEF(_context));
@@ -70,12 +70,27 @@ public class PermisosTests
         Assert.Equal("GetPermissions", addActionResult.RouteName);
 
         // Act: Retrieve permissions
-        var result = controller.Get();
+        List<Permission> result = controller.Get().ToList();
 
         // Assert
         // Your assertions here based on the result
         Assert.NotNull(result);
-        Assert.IsType <List<Permission>>(result); // Replace SomeExpectedType with the actual return type.
-        Assert.Equal(1, ((List<Permission>)result).Count);
+        Assert.Equal(1, result.Count);
+
+        // Act: Modify the permission
+        newPermission.NombreEmpleado = "Abcdef";
+        newPermission.ApellidoEmpleado = "xyzzz";
+        
+        addActionResult = controller.Put(newPermission.Id, newPermission) as CreatedAtRouteResult;
+
+        // Act: Retrieve permissions
+        result = controller.Get().ToList();
+        Assert.NotNull(result);
+        Assert.Equal(1, result.Count);
+        Permission mod = result.Find(p => p.Id == newPermission.Id);
+        
+        //Check that the properties where changed
+        Assert.Equal(mod.NombreEmpleado, newPermission.NombreEmpleado);
+        Assert.Equal(mod.ApellidoEmpleado, newPermission.ApellidoEmpleado);
     }
 }
