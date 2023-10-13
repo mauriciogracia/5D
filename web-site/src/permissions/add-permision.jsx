@@ -67,6 +67,7 @@ function PermissionForm() {
     return (
         <form onSubmit={handleSubmit}>
             <TextField
+                style={{ marginBottom: "16px" }}
                 label="Nombre del Empleado"
                 variant="outlined"
                 fullWidth
@@ -80,6 +81,7 @@ function PermissionForm() {
                 }
             />
             <TextField
+                style={{ marginBottom: "16px" }}
                 label="Apellido del Empleado"
                 variant="outlined"
                 fullWidth
@@ -113,7 +115,12 @@ function PermissionForm() {
                     ))}
                 </Select>
             </FormControl>
-            <Button type="submit" variant="contained" color="primary">
+            <Button
+                style={{ marginTop: "16px" }}
+                type="submit"
+                variant="contained"
+                color="primary"
+            >
                 Add Permission
             </Button>
             {error && <div className="error-message">{error}</div>}
