@@ -9,11 +9,11 @@ function PermissionForm() {
 
     useEffect(() => {
         console.log(
-            "GetPermissionTypesURL:" + ApiConfig.GetPermissionTypesEndpoint
+            "GetPermissionTypesURL:" + ApiConfig.PermissionTypesEndpoint
         );
 
         // Fetch permission types from the API endpoint when the component mounts
-        fetch(ApiConfig.GetPermissionTypesEndpoint)
+        fetch(ApiConfig.PermissionTypesEndpoint)
             .then((response) => {
                 if (!response.ok) {
                     console.log(response);
@@ -35,7 +35,7 @@ function PermissionForm() {
 
         try {
             // Make an API call to add the permission
-            const response = await fetch(ApiConfig.AddPermissionEndpoint, {
+            const response = await fetch(ApiConfig.PermissionEndpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

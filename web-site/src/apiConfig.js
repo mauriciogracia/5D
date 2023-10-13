@@ -1,9 +1,10 @@
-const apiBaseUrl = "http://webapi:5000";
-const GetPermissionTypesEndpoint = `${apiBaseUrl}/PermissionsType/GetPermissionTypes`;
-const AddPermissionEndpoint = `${apiBaseUrl}/api/addPermission`;
+//const apiBaseUrl = "http://webapi:5000"; when in production
+const apiBaseUrl = "http://localhost:5000";
+const PermissionEndpoint = `${apiBaseUrl}/Permissions`;
+const PermissionTypesEndpoint = `${apiBaseUrl}/PermissionsType`;
 
 export default {
     apiBaseUrl,
-    GetPermissionTypesEndpoint,
-    AddPermissionEndpoint,
+    PermissionEndpoint,
+    PermissionTypesEndpoint,
 };

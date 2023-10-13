@@ -6,7 +6,7 @@ namespace WebApi
 {
     public class Program
     {
-        static bool UseInMemoryDB = true;
+        static bool UseInMemoryDB = false;
         private const string API_NAME = "PERMISSIONS_API";
 
         public static void Main(string[] args)
