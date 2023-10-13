@@ -51,8 +51,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdatePermission")]
-        public IActionResult Put([FromBody] Permission permiso)
+        public IActionResult Put(int id, [FromBody] Permission permiso)
         {
+            permiso.Id = id;
             if (persist.ModifyPermission(permiso))
             {
                 return Ok(permiso);
