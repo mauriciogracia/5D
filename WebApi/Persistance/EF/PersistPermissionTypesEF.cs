@@ -15,5 +15,22 @@ public class PersistPermissionTypesEF : IPersistPermissionTypes
         return _context.TiposPermisos.ToList();
     }
 
+    public bool AddPermissionType(PermissionType pt)
+    {
+        bool success = false;
+
+        try
+        {
+            _context.TiposPermisos.Add(pt);
+            _context.SaveChanges();
+            success = true;
+        }
+        catch
+        {
+            // TODO Handle any exceptions, e.g., log the error
+        }
+
+        return success;
+    }
     
 }

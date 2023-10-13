@@ -6,5 +6,6 @@ namespace WebApi.Persistance
     {
         public IEnumerable<PermissionType> GetPermissionTypes();
 
+        public bool AddPermissionType(PermissionType pt);
     }
 }

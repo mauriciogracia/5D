@@ -6,6 +6,7 @@ namespace WebApi
 {
     public class Program
     {
+        static bool UseInMemoryDB = true;
         private const string API_NAME = "PERMISSIONS_API";
 
         public static void Main(string[] args)
@@ -14,11 +15,19 @@ namespace WebApi
             bool isDev = builder.Environment.IsDevelopment();
 
             // Register the ApiDbContext as a scoped service
-            builder.Services.AddDbContext<ApiDbContext>(options =>
+            if (UseInMemoryDB)
             {
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connectionString);
-            });
+                builder.Services.AddDbContext<ApiDbContext>(options =>
+        options.UseInMemoryDatabase(databaseName: "InMemoryDb"));
+            }
+            else
+            {
+                builder.Services.AddDbContext<ApiDbContext>(options =>
+                {
+                    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                    options.UseSqlServer(connectionString);
+                });
+            }
 
             // Dependency Injection
             builder.Services.AddTransient<IPersistPermissions, PersistPermissionsEF>();

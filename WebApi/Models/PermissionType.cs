@@ -15,6 +15,6 @@ namespace WebApi.Models
         public string Descripcion { get; set; }
 
         // Navigation property for related Permisos
-        public ICollection<Permission> Permisos { get; set; }
+        public ICollection<Permission> ? Permisos { get; set; }
     }
 }
