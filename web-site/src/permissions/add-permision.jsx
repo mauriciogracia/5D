@@ -78,7 +78,7 @@ function PermissionForm() {
                 <select id="TipoPermiso" name="TipoPermiso" required>
                     {permissionTypes.map((type) => (
                         <option key={type.id} value={type.id}>
-                            {type.name}
+                            {type.descripcion}
                         </option>
                     ))}
                 </select>
