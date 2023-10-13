@@ -7,6 +7,7 @@ using WebApi.Persistance;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
+using WebApi.Persistance.EntityFramework;
 
 public class PermisosTests
 {
@@ -25,14 +26,14 @@ public class PermisosTests
     public void TestGetPermissions()
     {
         // Arrange
-        var mockPersist = new Mock<IPersistPermissions>();
+        var mockPersist = new Mock<IRepository<Permission>>();
         // Create a list of sample permissions
         var samplePermissions = new List<Permission>
         {
             new Permission { Id = 1, NombreEmpleado = "Employee1", ApellidoEmpleado = "Last1", TipoPermisoId = 1, FechaPermiso = new DateTime(2023, 10, 1) },
             new Permission { Id = 2, NombreEmpleado = "Employee2", ApellidoEmpleado = "Last2", TipoPermisoId = 2, FechaPermiso = new DateTime(2023, 10, 2) }
         };
-        mockPersist.Setup(p => p.GetPermissions()).Returns(samplePermissions);
+        mockPersist.Setup(p => p.GetAll()).Returns(samplePermissions);
 
         var controller = new PermissionsController(mockPersist.Object);
 
@@ -50,7 +51,7 @@ public class PermisosTests
     public void IntegrationTest()
     {
         // Arrange
-        var controller = new PermissionsController(new PersistPermissionsEF(_context));
+        var controller = new PermissionsController(new PermissionRepository(_context));
 
         // Create a new permission to add
         var newPermission = new Permission

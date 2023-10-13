@@ -10,9 +10,9 @@ namespace WebApi.Controllers
     [EnableCors("AllowAnyOriginPolicy")]
     public class PermissionTypesController : ControllerBase
     {
-        private readonly IPersistPermissionTypes persist;
+        private readonly IRepository<PermissionType> persist;
 
-        public PermissionTypesController(IPersistPermissionTypes per)
+        public PermissionTypesController(IRepository<PermissionType> per)
         {
             persist = per;
         }
@@ -20,13 +20,13 @@ namespace WebApi.Controllers
         [HttpGet(Name = "GetPermissionTypes")]
         public IEnumerable<PermissionType> GetPermissionTypes()
         {
-            return persist.GetPermissionTypes() ;
+            return persist.GetAll() ;
         }
 
         [HttpPost(Name = "AddPermissionType")]
         public IActionResult Post([FromBody] PermissionType pt)
         {
-            if (persist.AddPermissionType(pt))
+            if (persist.Add(pt))
             {
                 return CreatedAtRoute("GetPermissionTypes", new { id = pt.Id }, pt);
             }

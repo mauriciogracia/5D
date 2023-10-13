@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebApi.Models;
 using WebApi.Persistance;
+using WebApi.Persistance.EntityFramework;
 
 namespace WebApi
 {
@@ -30,8 +32,8 @@ namespace WebApi
             }
 
             // Dependency Injection
-            builder.Services.AddTransient<IPersistPermissions, PersistPermissionsEF>();
-            builder.Services.AddTransient<IPersistPermissionTypes, PersistPermissionTypesEF>();
+            builder.Services.AddTransient<IRepository<Permission>, PermissionRepository>();
+            builder.Services.AddTransient<IRepository<PermissionType>, PermissionTypeRepository >();
 
             // Add services to the container.
             builder.Services.AddControllers();
