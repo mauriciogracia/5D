@@ -43,13 +43,16 @@ function PermissionGridView({ history }) {
                 {/* Header row */}
                 <Grid item xs={12}>
                     <Grid container spacing={2} direction="row">
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
+                            <strong>Id</strong>
+                        </Grid>
+                        <Grid item xs={3}>
                             <strong>Nombre</strong>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <strong>Apellido</strong>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <strong>Permiso</strong>
                         </Grid>
                     </Grid>
@@ -57,15 +60,16 @@ function PermissionGridView({ history }) {
                 {data.map((item) => (
                     <Grid item xs={12} key={item.id}>
                         <Grid container spacing={2} direction="row">
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
+                                {item.id}
+                            </Grid>
+                            <Grid item xs={3}>
                                 {item.nombreEmpleado}
                             </Grid>
-
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                                 {item.apellidoEmpleado}
                             </Grid>
-
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                                 {item.tipoPermisoId}
                             </Grid>
                         </Grid>
