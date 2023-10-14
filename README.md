@@ -9,10 +9,8 @@ The folder structure is:
 This architecture will be used, each box is and abstraction layer but it does not represent a container
 ![alt text](Architecture.png "Title")
 
-With this architecture you can choose the type of persistance that you want (`Database` or `ElasticSearch`)
-here Dependency Injection is used combined with Repository Pattern to achieve that.
-
-To control that there is `UseMemoryDB` setting in the `WebApi/appsettings.json` file can changed for that and run `./bapi`
+With this architecture you can choose the type of persistance strategy that you want :`Database` or `ElasticSearch` to achieve that 
+`Dependency Injection` is used combined with `Repository Pattern`. To control that there is `UseMemoryDB` setting in the `WebApi/appsettings.json` file can changed for that and run `./bapi`
 
 This project uses docker-compose to build and launch the application, there are a few utilitary commands for that (docker engine needs to be running)
 - `./launch` used to prepare and launch all the containers at once
