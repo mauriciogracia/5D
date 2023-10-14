@@ -10,17 +10,6 @@ using WebApi.Persistance.EntityFramework;
 
 public class PermisosTests
 {
-    private readonly ApiDbContext _context;
-
-    public PermisosTests()
-    {
-        var options = new DbContextOptionsBuilder<ApiDbContext>()
-            .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
-            .Options;
-
-        _context = new ApiDbContext(options);
-    }
-
     [Fact]
     public void TestGetPermissions()
     {
@@ -50,7 +39,13 @@ public class PermisosTests
     public void IntegrationTest()
     {
         // Arrange
-        var controller = new PermissionsController(new PermissionRepository(_context));
+        var options = new DbContextOptionsBuilder<ApiDbContext>()
+           .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
+           .Options;
+
+        var DbContext = new ApiDbContext(options);
+        var controller = new PermissionsController(new PermissionRepository(DbContext));
+        
 
         // Create a new permission to add
         var newPermission = new Permission
