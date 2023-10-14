@@ -1,36 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
-import ApiConfig from "../apiConfig";
+import { Link } from "react-router-dom";
+import { getPermissions } from "../apiBroker";
 
 function PermissionGridView({ history }) {
     const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchPermissionsList();
+        getPermissions(setData, setError);
     }, []);
-
-    const fetchPermissionsList = () => {
-        console.log("LISTING");
-        // Fetch data from the API endpoint
-        fetch(ApiConfig.PermissionEndpoint)
-            .then((response) => {
-                if (!response.ok) {
-                    console.log(response);
-                    throw new Error("Failed to fetch data");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setData(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
     return (
         <div>
             <h3>EMPLOYEE PERMISSIONS</h3>
+            <Link to="/">HOME</Link>
             <Button
                 style={{ marginBottom: "16px" }}
                 variant="contained"
