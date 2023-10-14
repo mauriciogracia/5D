@@ -7,7 +7,7 @@ import {
     FormControl,
     InputLabel,
 } from "@mui/material";
-import ApiConfig from "../apiConfig";
+import { addPermission, getPermissionTypes } from "../apiBroker";
 
 function PermissionForm() {
     const [permission, setPermission] = useState({
@@ -20,48 +20,12 @@ function PermissionForm() {
     const [permissionTypes, setPermissionTypes] = useState([]);
 
     useEffect(() => {
-        fetchPermissionTypes();
+        getPermissionTypes(setPermissionTypes, setError);
     }, []);
-
-    const fetchPermissionTypes = () => {
-        fetch(ApiConfig.PermissionTypesEndpoint)
-            .then((response) => {
-                if (!response.ok) {
-                    console.log(response);
-                    throw new Error("Failed to fetch permission types");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setPermissionTypes(data);
-            })
-            .catch((err) => {
-                setError(err.message);
-            });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Set FechaPermiso to the current date
-        permission.FechaPermiso = new Date();
-        try {
-            const response = await fetch(ApiConfig.PermissionEndpoint, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(permission),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to add permission");
-            }
-
-            // Handle success
-            // Reset the form or show a success message
-        } catch (err) {
-            setError(err.message);
-        }
+        addPermission(permission, setError);
     };
 
     return (

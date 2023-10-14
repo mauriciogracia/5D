@@ -29,7 +29,7 @@ const getPermissions = (setData, setError) => {
         });
 };
 
-const addPermission = (permission, setData, setError) => {
+const addPermission = (permission, setError) => {
     console.log("ADD PERMISSION");
     // Set FechaPermiso to the current date
     permission.FechaPermiso = new Date();
@@ -38,7 +38,6 @@ const addPermission = (permission, setData, setError) => {
         .post(ApiConfig.PermissionEndpoint, permission)
         .then((response) => {
             console.log(response.data);
-            setData(response.data);
         })
         .catch((error) => {
             console.error(error);

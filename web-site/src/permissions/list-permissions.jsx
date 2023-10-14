@@ -15,6 +15,7 @@ function PermissionGridView({ history }) {
         <div>
             <h3>EMPLOYEE PERMISSIONS</h3>
             <Link to="/">HOME</Link>
+            <br></br>
             <Button
                 style={{ marginBottom: "16px" }}
                 variant="contained"
