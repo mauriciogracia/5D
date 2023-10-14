@@ -9,6 +9,16 @@ services:
             - "1433:1433"
         networks:
             - mgg_net
+    elastic-search:
+        container_name: elastic-search
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+        environment:
+            - discovery.type=single-node
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            - mgg_net
     webapi:
         container_name: webapi
         build:
@@ -17,8 +27,6 @@ services:
         ports:
             - "5000:80"
             - "5001:443"
-        depends_on:
-            - database # The web API depends on the database service
         networks:
             - mgg_net
 
@@ -35,16 +43,7 @@ services:
             - webapi # The React app depends on the web API service
         networks:
             - mgg_net
-    elastic-search:
-        container_name: elastic-search
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-        environment:
-            - discovery.type=single-node
-        ports:
-            - "9200:9200"
-            - "9300:9300"
-        networks:
-            - mgg_net
+
     # kafka:
     #     container_name: kafka
     #     image: confluentinc/cp-kafka:latest
@@ -62,11 +61,3 @@ services:
 networks:
     mgg_net:
         driver: bridge
-        #
-# proxy:
-#         container_name: proxy
-#         build:
-#             context: ./proxy
-#             dockerfile: ./proxy.Dockerfile
-#         ports:
-#             - "8080:80"

@@ -20,14 +20,17 @@ namespace WebApi
                 /* USE InMemoryDb 
                 builder.Services.AddDbContext<ApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDb"));*/
 
+                var elasticsearchUri = builder.Configuration.GetConnectionString("ElasticURI"); 
+
                 // Dependency Injection
                 builder.Services.AddScoped<IRepository<Permission>>(provider =>
                 {
-                    var elasticsearchUri = builder.Configuration.GetConnectionString("ElasticURI"); // Get the Elasticsearch connection string from your configuration
                     return new PermissionElastic(elasticsearchUri);
                 });
-
-                //TODO add the 3 types of permission to ELASTIC SEARCH (similar to INSERT INTO)
+                builder.Services.AddScoped<IRepository<PermissionType>>(provider =>
+                {
+                    return new PermissionTypeElastic(elasticsearchUri);
+                });
             }
             else
             {
