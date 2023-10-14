@@ -26,9 +26,9 @@ namespace WebApi.Persistance.EntityFramework
                 _context.SaveChanges();
                 success = true;
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO Handle any exceptions, e.g., log the error
+                Console.WriteLine(ex.Message);
             }
 
             return success;
