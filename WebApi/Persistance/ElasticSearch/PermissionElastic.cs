@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Elasticsearch.Net;
-using Nest;
+﻿using Nest;
 using WebApi.Models;
 
 namespace WebApi.Persistance.EntityFramework
@@ -17,9 +13,9 @@ namespace WebApi.Persistance.EntityFramework
             var uri = new Uri(elasticsearchUri); 
 
             var settings = new ConnectionSettings(uri)
-                .DefaultIndex(INDEX_NAME) // Set the default index name for your Permission documents
+                .DefaultIndex(INDEX_NAME) 
                 .DefaultMappingFor<Permission>(m => m
-                    .IndexName(INDEX_NAME) // Set the index name for Permission documents
+                    .IndexName(INDEX_NAME) 
                 );
 
             _elasticClient = new ElasticClient(settings);

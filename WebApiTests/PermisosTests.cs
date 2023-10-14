@@ -6,7 +6,6 @@ using WebApi.Models;
 using WebApi.Persistance;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
 using WebApi.Persistance.EntityFramework;
 
 public class PermisosTests

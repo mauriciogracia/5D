@@ -1,5 +1,4 @@
 ﻿using WebApi.Models;
-using WebApi.Persistance;
 
 namespace WebApi.Persistance.EntityFramework
 {
