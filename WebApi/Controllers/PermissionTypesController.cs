@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using WebApi.Models;
 using WebApi.Persistance;
 
@@ -10,23 +11,38 @@ namespace WebApi.Controllers
     [EnableCors(Program.CORS_POLICY_NAME)]
     public class PermissionTypesController : ControllerBase
     {
-        private readonly IRepository<PermissionType> persist;
+        private readonly IRepository<PermissionType> permissionTypeRepo;
 
         public PermissionTypesController(IRepository<PermissionType> per)
         {
-            persist = per;
+            permissionTypeRepo = per;
         }
 
         [HttpGet(Name = "GetPermissionTypes")]
         public IEnumerable<PermissionType> GetPermissionTypes()
         {
-            return persist.GetAll() ;
+            IEnumerable<PermissionType> pts;
+            pts = permissionTypeRepo.GetAll();
+
+            if(!pts.Any())
+            {
+                PreparePermissionTypes();
+                pts = permissionTypeRepo.GetAll();
+            }
+            return pts;
+        }
+
+        private void PreparePermissionTypes()
+        {
+            permissionTypeRepo.Add(new PermissionType { Descripcion = "Lectura" });
+            permissionTypeRepo.Add(new PermissionType { Descripcion = "Modificacion" });
+            permissionTypeRepo.Add(new PermissionType { Descripcion = "Admin" });
         }
 
         [HttpPost(Name = "AddPermissionType")]
         public IActionResult Post([FromBody] PermissionType pt)
         {
-            if (persist.Add(pt))
+            if (permissionTypeRepo.Add(pt))
             {
                 return CreatedAtRoute("GetPermissionTypes", new { id = pt.Id }, pt);
             }
