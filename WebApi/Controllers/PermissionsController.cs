@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors(Program.CORS_POLICY_NAME)]
+    [EnableCors(Config.CORS_POLICY_NAME)]
     public class PermissionsController : ControllerBase
     {
         private readonly IRepository<Permission> permisionRepo;

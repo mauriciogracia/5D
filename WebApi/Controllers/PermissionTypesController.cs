@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors(Program.CORS_POLICY_NAME)]
+    [EnableCors(Config.CORS_POLICY_NAME)]
     public class PermissionTypesController : ControllerBase
     {
         private readonly IRepository<PermissionType> permissionTypeRepo;
@@ -31,7 +31,7 @@ namespace WebApi.Controllers
             return pts;
         }
 
-        private void PreparePermissionTypes()
+        public void PreparePermissionTypes()
         {
             permissionTypeRepo.Add(new PermissionType { Descripcion = "Lectura" });
             permissionTypeRepo.Add(new PermissionType { Descripcion = "Modificacion" });

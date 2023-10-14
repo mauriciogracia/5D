@@ -8,14 +8,11 @@ namespace WebApi
 {
     public class Program
     {
-        private const string API_NAME = "PERMISSIONS_API";
-        public const string CORS_POLICY_NAME = "AllowAnyOriginPolicy";
-
         private static void PeristanceStrategy(WebApplicationBuilder builder)
         {
-            bool UseMemoryDB = builder.Configuration.GetValue<bool>("UseMemoryDB");
+            Config.UseMemoryDB = builder.Configuration.GetValue<bool>("UseMemoryDB");
 
-            if (UseMemoryDB)
+            if (Config.UseMemoryDB)
             {
                 /* USE InMemoryDb 
                 builder.Services.AddDbContext<ApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDb"));*/
@@ -63,7 +60,7 @@ namespace WebApi
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = API_NAME, Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = Config.API_NAME, Version = "v1" });
                 });
             }
 
@@ -76,12 +73,12 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", API_NAME);
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", Config.API_NAME);
                 });
             }
 
             // Enable CORS
-            app.UseCors(Program.CORS_POLICY_NAME);
+            app.UseCors(Config.CORS_POLICY_NAME);
 
             //app.UseHttpsRedirection();
             app.UseAuthorization();
@@ -96,7 +93,7 @@ namespace WebApi
             // Configure CORS
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(Program.CORS_POLICY_NAME, builder =>
+                options.AddPolicy(Config.CORS_POLICY_NAME, builder =>
                 {
                     builder
                         .AllowAnyOrigin()     // Allow requests from any origin
