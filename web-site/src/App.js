@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
-// Import your components
+// Import components
 import AddPermission from "./permissions/add-permision.jsx";
 import PermissionGridView from "./permissions/list-permissions.jsx";
 import PermissionTypesGridView from "./permissions-types/list-permissions-types.jsx";

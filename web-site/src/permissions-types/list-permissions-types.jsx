@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import ApiConfig from "../apiConfig";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import { getPermissionTypes } from "../apiBroker";
 
 function PermissionTypesGridView({ history }) {
     const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchPermissionsList();
+        getPermissionTypes(setData, setError);
     }, []);
-
-    const fetchPermissionsList = () => {
-        console.log("LISTING TYPES");
-        // TODO Fetch data from the API endpoint
-        axios
-            .get(ApiConfig.PermissionTypesEndpoint)
-            .then((response) => {
-                console.log("Data:", response.data);
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    };
 
     return (
         <div>
             <h3>PERMISSION TYPES</h3>
+            <Link to="/">HOME</Link>
+            <br></br>
             <Grid container spacing={2}>
                 {/* Header row */}
                 <Grid item xs={12}>
