@@ -20,3 +20,5 @@ Since rebuilding all containers is not time effective for development I created 
 - `./bdba` build the database container
 - `./bapi` build the API container
 - `./bweb` build the ReactJS container
+
+The ./launch command will pull the images, create the containers and setup the database tables and relationships
