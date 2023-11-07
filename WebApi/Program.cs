@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using WebApi.Models;
 using WebApi.Persistance;
+using WebApi.Persistance.CQRS;
 using WebApi.Persistance.EntityFramework;
 
 namespace WebApi
@@ -10,37 +12,68 @@ namespace WebApi
     {
         private static void PeristanceStrategy(WebApplicationBuilder builder)
         {
-            Config.UseMemoryDB = builder.Configuration.GetValue<bool>("UseMemoryDB");
+            Config.PersistanceStrategy = builder.Configuration.GetValue<string>("PersistanceStrategy");
 
-            if (Config.UseMemoryDB)
+            if (Config.PersistanceStrategy.Equals("PS_CACHE"))
             {
-                /* USE InMemoryDb 
-                builder.Services.AddDbContext<ApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDb"));*/
-
-                var elasticsearchUri = builder.Configuration.GetConnectionString("ElasticURI"); 
-
-                // Dependency Injection
-                builder.Services.AddScoped<IRepository<Permission>>(provider =>
-                {
-                    return new PermissionElastic(elasticsearchUri);
-                });
-                builder.Services.AddScoped<IRepository<PermissionType>>(provider =>
-                {
-                    return new PermissionTypeElastic(elasticsearchUri);
-                });
+                ConfigureCacheInjection(builder);
             }
-            else
+            else if (Config.PersistanceStrategy.Equals("PS_DATABASE"))
             {
-                builder.Services.AddDbContext<ApiDbContext>(options =>
-                {
-                    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-                    options.UseSqlServer(connectionString);
-                });
-                // Dependency Injection
-                builder.Services.AddScoped<IRepository<Permission>, PermissionRepository>();
-                builder.Services.AddScoped<IRepository<PermissionType>, PermissionTypeRepository>();
+                ConfigureDatabaseInjection(builder);
+            }
+            else if (Config.PersistanceStrategy.Equals("PS_CQRS"))
+            {
+                ConfigureDatabaseInjection(builder);
+                ConfigureCacheInjection(builder);
+                ConfigureCQRSInjection(builder);
             }
         }
+
+        private static void ConfigureDatabaseInjection(WebApplicationBuilder builder)
+        {
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            AddDatabaseServices(builder.Services, connectionString);
+        }
+
+        private static void ConfigureCacheInjection(WebApplicationBuilder builder)
+        {
+            var elasticsearchUri = builder.Configuration.GetConnectionString("ElasticURI");
+            AddCacheServices(builder.Services, elasticsearchUri);
+        }
+
+        private static void ConfigureCQRSInjection(WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IRepository<Permission>>(provider =>
+            {
+                var databaseRepository = provider.GetRequiredService<IRepository<Permission>>();
+                var cacheRepository = provider.GetRequiredService<IRepository<Permission>>();
+                return new RepositoryCQRS(databaseRepository, cacheRepository);
+            });
+        }
+
+        private static void AddDatabaseServices(IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<ApiDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+            services.AddScoped<IRepository<Permission>, PermissionRepository>();
+            services.AddScoped<IRepository<PermissionType>, PermissionTypeRepository>();
+        }
+
+        private static void AddCacheServices(IServiceCollection services, string elasticsearchUri)
+        {
+            services.AddScoped<IRepository<Permission>>(provider =>
+            {
+                return new PermissionElastic(elasticsearchUri);
+            });
+            services.AddScoped<IRepository<PermissionType>>(provider =>
+            {
+                return new PermissionTypeElastic(elasticsearchUri);
+            });
+        }
+
 
         public static void Main(string[] args)
         {

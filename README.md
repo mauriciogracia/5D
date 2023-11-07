@@ -9,8 +9,8 @@ The folder structure is:
 This architecture will be used, each box is and abstraction layer but it does not represent a container
 ![alt text](Architecture.png "Title")
 
-With this architecture you can choose the type of persistance strategy that you want :`Database` or `ElasticSearch` to achieve that 
-`Dependency Injection` is used combined with `Repository Pattern`. To control that there is `UseMemoryDB` setting in the `WebApi/appsettings.json` file can changed for that and run `./bapi`
+With this architecture you can choose the type of persistance strategy that you want :`PS_DATABASE` or `PS_CACHE` or `PS_CQRS` to achieve that 
+`Dependency Injection` is used combined with `Repository Pattern`. To control that there is `PersistanceStrategy` setting in the `WebApi/appsettings.json` file can changed for that and run `./bapi`
 
 This project uses docker-compose to build and launch the application, there are a few utilitary commands for that (docker engine needs to be running)
 - `./launch` used to prepare and launch all the containers at once
@@ -21,4 +21,4 @@ Since rebuilding all containers is not time effective for development I created 
 - `./bapi` build the API container
 - `./bweb` build the ReactJS container
 
-The ./launch command will pull the images, create the containers and setup the database tables and relationships
+The `./launch` command will pull the images, create the containers and setup the database tables and relationships

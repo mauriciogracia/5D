@@ -4,6 +4,6 @@
     {
         public const string API_NAME = "PERMISSIONS_API";
         public const string CORS_POLICY_NAME = "AllowAnyOriginPolicy";
-        public static bool UseMemoryDB;
+        public static string PersistanceStrategy;
     }
 }
