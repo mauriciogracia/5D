@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 // Import components
-import AddPermission from "./permissions/add-permision.jsx";
+import AddPermission from "./permissions/add-permission.jsx";
 import PermissionGridView from "./permissions/list-permissions.jsx";
 import PermissionTypesGridView from "./permissions-types/list-permissions-types.jsx";
 
 function Home() {
     return (
         <div>
-            <h1>5D - Permission Managment</h1>
+            <h1>5D - Permission Managment - v7.11</h1>
             <Link to="/list-permission-types">Permissions Types</Link>
             <br></br>
             <Link to="/add-permission">Add Permission</Link>

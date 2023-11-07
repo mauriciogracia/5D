@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { addPermission, getPermissionTypes } from "../apiBroker";
 
-function PermissionForm() {
+function AddPermissionForm({ handleClose, onPermissionAdded }) {
     const [permission, setPermission] = useState({
         NombreEmpleado: "",
         ApellidoEmpleado: "",
@@ -25,7 +25,18 @@ function PermissionForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        addPermission(permission, setError);
+        console.log("1111");
+        addPermission(permission, setError)
+            .then(() => {
+                console.log("2222");
+                onPermissionAdded(); // Call the refresh function
+                console.log("3333");
+                handleClose();
+                console.log("4444");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
@@ -85,11 +96,11 @@ function PermissionForm() {
                 variant="contained"
                 color="primary"
             >
-                Add Permission
+                SAVE
             </Button>
             {error && <div className="error-message">{error}</div>}
         </form>
     );
 }
 
-export default PermissionForm;
+export default AddPermissionForm;

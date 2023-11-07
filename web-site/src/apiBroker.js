@@ -3,7 +3,7 @@ import ApiConfig from "./apiConfig";
 
 const getPermissionTypes = (setData, setError) => {
     console.log("LISTING TYPES");
-    axios
+    return axios
         .get(ApiConfig.PermissionTypesEndpoint)
         .then((response) => {
             console.log("Data:", response.data);
@@ -17,7 +17,7 @@ const getPermissionTypes = (setData, setError) => {
 
 const getPermissions = (setData, setError) => {
     console.log("LISTING PERMISSIONS");
-    axios
+    return axios
         .get(ApiConfig.PermissionEndpoint)
         .then((response) => {
             console.log(response.data);
@@ -34,7 +34,7 @@ const addPermission = (permission, setError) => {
     // Set FechaPermiso to the current date
     permission.FechaPermiso = new Date();
 
-    axios
+    return axios
         .post(ApiConfig.PermissionEndpoint, permission)
         .then((response) => {
             console.log(response.data);
@@ -42,6 +42,7 @@ const addPermission = (permission, setError) => {
         .catch((error) => {
             console.error(error);
             setError(error);
+            throw error; // Rethrow the error to propagate it further if needed
         });
 };
 

@@ -1,15 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Button } from "@mui/material";
+import {
+    Grid,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+} from "@mui/material";
+
 import { Link } from "react-router-dom";
 import { getPermissions } from "../apiBroker";
+import AddPermissionForm from "./add-permission";
 
 function PermissionGridView({ history }) {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage the dialog open state
 
     useEffect(() => {
         getPermissions(setData, setError);
     }, []);
+
+    const openDialog = () => {
+        setIsDialogOpen(true);
+    };
+
+    const closeDialog = () => {
+        setIsDialogOpen(false);
+    };
+
+    const refreshPermissions = () => {
+        console.log("refreshPermissions") ;
+        getPermissions(setData, setError);
+        closeDialog(); // Close the dialog after refreshing
+    };
 
     return (
         <div>
@@ -20,7 +43,7 @@ function PermissionGridView({ history }) {
                 style={{ marginBottom: "16px" }}
                 variant="contained"
                 color="primary"
-                onClick={() => history.push("/add-permission")}
+                onClick={openDialog} // Open the dialog on button click
             >
                 NEW PERMISSION
             </Button>
@@ -61,6 +84,17 @@ function PermissionGridView({ history }) {
                     </Grid>
                 ))}
             </Grid>
+
+            {/* Render the PermissionForm within a Dialog */}
+            <Dialog open={isDialogOpen} onClose={closeDialog}>
+                <DialogTitle>Add New Permission</DialogTitle>
+                <DialogContent>
+                    <AddPermissionForm
+                        handleClose={closeDialog}
+                        onPermissionAdded={refreshPermissions}
+                    />
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

@@ -10,23 +10,23 @@ namespace WebApi.Controllers
     [EnableCors(Config.CORS_POLICY_NAME)]
     public class PermissionsController : ControllerBase
     {
-        private readonly IRepository<Permission> permisionRepo;
+        private readonly IRepository<Permission> permissionRepo;
 
         public PermissionsController(IRepository<Permission> per)
         {
-            permisionRepo = per;
+            permissionRepo = per;
         }
 
         [HttpGet(Name = "GetPermissions")]
         public IEnumerable<Permission> Get()
         {
-            return permisionRepo.GetAll() ;
+            return permissionRepo.GetAll() ;
         }
 
         [HttpPost(Name = "AddPermission")]
         public IActionResult Post([FromBody] Permission permiso)
         {
-            if (permisionRepo.Add(permiso))
+            if (permissionRepo.Add(permiso))
             {
                 return CreatedAtRoute("GetPermissions", new { id = permiso.Id }, permiso);
             }
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}", Name = "GetPermission")]
         public IActionResult Get(int id)
         {
-            var permiso = permisionRepo.GetById(id);
+            var permiso = permissionRepo.GetById(id);
             if (permiso != null)
             {
                 return Ok(permiso);
@@ -54,7 +54,7 @@ namespace WebApi.Controllers
         public IActionResult Put(int id, [FromBody] Permission permiso)
         {
             permiso.Id = id;
-            if (permisionRepo.Update(permiso))
+            if (permissionRepo.Update(permiso))
             {
                 return Ok(permiso);
             }
